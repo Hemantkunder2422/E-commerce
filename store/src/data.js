@@ -81,4 +81,8 @@ export const popularProducts = [
     id: 10,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAutua_lm-UgBIGWVUoPd1hgUpBdQy_SjJTo3eHggMdCXYGpP64TRLH0SDeLR7LneSckM&usqp=CAU",
   },
+  {
+    id: 10,
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAutua_lm-UgBIGWVUoPd1hgUpBdQy_SjJTo3eHggMdCXYGpP64TRLH0SDeLR7LneSckM&usqp=CAU",
+  },
 ];
