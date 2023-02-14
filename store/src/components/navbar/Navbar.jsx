@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Badge } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { mobile } from "../../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -73,7 +74,9 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Syntra.</Logo>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <Logo>Syntra.</Logo>
+          </Link>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>

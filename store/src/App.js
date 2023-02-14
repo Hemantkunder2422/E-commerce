@@ -4,9 +4,23 @@ import Product from "./pages/Product/Product";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Cart from "./pages/Cart/Cart";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
-  return <div className="App"></div>;
+  const user = true;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/products/:id" element={<ProductsLists />} />
+      <Route path="/product/:id" element={<Product />} />
+      <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+      <Route
+        path="/register"
+        element={user ? <Navigate to="/" /> : <Register />}
+      />
+      <Route path="/cart" element={<Cart />} />
+    </Routes>
+  );
 }
 
 export default App;

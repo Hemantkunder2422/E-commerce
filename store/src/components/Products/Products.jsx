@@ -10,7 +10,8 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Products = () => {
+const Products = ({ category, filter, sort }) => {
+  console.log(category, filter, sort);
   return (
     <Container>
       {popularProducts.map((item) => {

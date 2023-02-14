@@ -27,16 +27,19 @@ export const categories = [
     id: 1,
     img: "https://cdn.shopify.com/s/files/1/0267/0107/0380/files/Main-Banner-Lower-6_2048x2048.jpg?v=1667606870",
     title: "SHIRT STYLE !!",
+    cat: "men",
   },
   {
     id: 2,
     img: "https://m.media-amazon.com/images/I/71+79aT+dxL._AC_UY1000_.jpg",
     title: "LOUNGE WEAR LOVE !!",
+    cat: "women",
   },
   {
     id: 3,
     img: "http://rab.equipment/media/catalog/product/m/y/mythic_alpine_light_jacket_orionblue_qdb_47_orb_detail4.jpg?width=768&height=1152&canvas=768,1152&optimize=medium&fit=bounds",
     title: "LIGHT JACKETS !!",
+    cat: "men",
   },
 ];
 
@@ -81,5 +84,4 @@ export const popularProducts = [
     id: 10,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAutua_lm-UgBIGWVUoPd1hgUpBdQy_SjJTo3eHggMdCXYGpP64TRLH0SDeLR7LneSckM&usqp=CAU",
   },
- 
 ];
