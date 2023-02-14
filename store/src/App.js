@@ -6,16 +6,7 @@ import Register from "./pages/register/Register";
 import Cart from "./pages/Cart/Cart";
 
 function App() {
-  return (
-    <div className="App">
-      {/* <Home /> */}
-      {/* <ProductsLists /> */}
-      {/* <Product /> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
-      <Cart />
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
