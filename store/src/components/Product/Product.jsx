@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Link } from "react-router-dom";
 
 const Info = styled.div`
   height: 100%;
@@ -67,7 +68,7 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
-  const { id, img } = item;
+  const { _id, img } = item;
 
   return (
     <Container>
@@ -78,7 +79,9 @@ const Product = ({ item }) => {
           <AddShoppingCartIcon />
         </Icon>
         <Icon>
-          <SearchIcon />
+          <Link to={`/product/${_id}`}>
+            <SearchIcon />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderIcon />

@@ -61,10 +61,10 @@ const ProductsLists = () => {
           <FilterText>Filter Products:</FilterText>
           <Select name="color" onChange={handlefilters}>
             <Option>Color</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Green</Option>
-            <Option>Yellow</Option>
+            <Option>red</Option>
+            <Option>blue</Option>
+            <Option>green</Option>
+            <Option>yellow</Option>
           </Select>
           <Select name="size" onChange={handlefilters}>
             <Option>Size</Option>
@@ -72,7 +72,7 @@ const ProductsLists = () => {
             <Option>S</Option>
             <Option>M</Option>
             <Option>L</Option>
-            <Option>XXL</Option>
+            <Option>XL</Option>
           </Select>
         </Filter>
         <Filter>

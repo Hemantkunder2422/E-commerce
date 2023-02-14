@@ -1,9 +1,11 @@
 import { Add, Remove } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import NewsLetter from "../../components/NewsLetter/NewsLetter";
+import axios from "axios";
 
 const Container = styled.div``;
 
@@ -111,25 +113,30 @@ const Button = styled.button`
   }
 `;
 
-const Product = () => {
+const SingleProduct = () => {
+  const [singleProduct, setSingleProduct] = useState({});
+  const product_id = useParams().id;
+  const fetchSingleProduct = async () => {
+    const res = await axios.get(
+      `http://localhost:3000/api/product/find/${product_id}`
+    );
+    setSingleProduct(res.data);
+  };
+
+  useEffect(() => {
+    fetchSingleProduct();
+  }, []);
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYYBqmpaIYsoxmuOjfh9_UIcKLhLicfVvxBg&usqp=CAU" />
+          <Image src={singleProduct.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jeans</Title>
-          <Desc>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus
-            officia doloribus ipsum dignissimos tenetur cum id modi consectetur,
-            sit blanditiis. Ipsum eaque non tenetur dolorem ex maxime eligendi
-            doloribus quidem porro atque similique, nihil voluptatum maiores
-            soluta quisquam dolores consequuntur possimus suscipit quibusdam
-            fugiat qui in omnis doloremque? Obcaecati, atque.
-          </Desc>
-          <Price>$20</Price>
+          <Title>{singleProduct.title}</Title>
+          <Desc>{singleProduct.desc}</Desc>
+          <Price>${singleProduct.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
@@ -163,4 +170,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default SingleProduct;
