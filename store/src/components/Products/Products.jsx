@@ -25,7 +25,6 @@ const Products = ({ category, filter, sort }) => {
       setProducts(res.data);
     } catch (err) {}
   };
-  console.log(filteredProducts);
 
   useEffect(() => {
     fetchProducts();

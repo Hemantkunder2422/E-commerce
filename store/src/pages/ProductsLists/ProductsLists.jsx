@@ -55,7 +55,7 @@ const ProductsLists = () => {
       {showAccouncement && (
         <Announcement showAccouncement={setShowAccouncement} />
       )}
-      <Title>Dresses</Title>
+      <Title>{category}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>

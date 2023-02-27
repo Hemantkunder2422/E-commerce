@@ -5,7 +5,9 @@ import styled from "styled-components";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import NewsLetter from "../../components/NewsLetter/NewsLetter";
-import axios from "axios";
+import { publicRequest } from "../../requestMethods";
+import { addProduct } from "../../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 
@@ -114,18 +116,40 @@ const Button = styled.button`
 `;
 
 const SingleProduct = () => {
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
   const [singleProduct, setSingleProduct] = useState({});
   const product_id = useParams().id;
+  const dispatch = useDispatch();
   const fetchSingleProduct = async () => {
-    const res = await axios.get(
-      `http://localhost:3000/api/product/find/${product_id}`
-    );
+    const res = await publicRequest.get(`product/find/${product_id}`);
     setSingleProduct(res.data);
   };
 
   useEffect(() => {
     fetchSingleProduct();
-  }, []);
+  }, [product_id]);
+
+  const handleQuantity = (type) => {
+    if (type === "add") {
+      setQuantity(quantity + 1);
+    } else {
+      quantity > 1 && setQuantity(quantity - 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({
+        ...singleProduct,
+        quantity,
+        size,
+        color,
+      })
+    );
+  };
+
   return (
     <Container>
       <Navbar />
@@ -140,27 +164,38 @@ const SingleProduct = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="cyan" />
-              <FilterColor color="gray" />
+              {singleProduct.color?.map((product) => {
+                return (
+                  <FilterColor
+                    color={product}
+                    key={product._id}
+                    onClick={() => setColor(product)}
+                  />
+                );
+              })}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterOption>XS</FilterOption>
-                <FilterOption>S</FilterOption>
-                <FilterOption>M</FilterOption>
-                <FilterOption>XXL</FilterOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {singleProduct.size?.map((size) => {
+                  return <FilterOption key={size._id}>{size}</FilterOption>;
+                })}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove
+                onClick={() => handleQuantity("remove")}
+                style={{ cursor: "pointer" }}
+              />
+              <Amount>{quantity}</Amount>
+              <Add
+                onClick={() => handleQuantity("add")}
+                style={{ cursor: "pointer" }}
+              />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

@@ -1,8 +1,12 @@
 import { Add, Remove } from "@mui/icons-material";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -144,6 +148,14 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  console.log(stripeToken);
+
   return (
     <Container>
       <Navbar />
@@ -152,70 +164,53 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Shopping Bag({cart.quantity})</TopText>
             <TopText>Your Wishlist(0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTqgSK88aA7PI2HYkoPd7g174pWeFIyF6kAg&usqp=CAU" />
-                <Details>
-                  <ProductName>
-                    <strong>Product:</strong>Nike Shoes
-                  </ProductName>
-                  <ProductId>
-                    <strong>ID:</strong>511245121554
-                  </ProductId>
-                  <ProductColor color="orange" />
-                  <ProductSize>
-                    <strong>Size:</strong>8UK
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTqgSK88aA7PI2HYkoPd7g174pWeFIyF6kAg&usqp=CAU" />
-                <Details>
-                  <ProductName>
-                    <strong>Product:</strong>Nike Shoes
-                  </ProductName>
-                  <ProductId>
-                    <strong>ID:</strong>511245121554
-                  </ProductId>
-                  <ProductColor color="orange" />
-                  <ProductSize>
-                    <strong>Size:</strong>8UK
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => {
+              return (
+                <Product key={product._id}>
+                  <ProductDetail>
+                    <Image src={product.img} />
+                    <Details>
+                      <ProductName>
+                        <strong>Product:</strong>
+                        {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <strong>ID:</strong>
+                        {product._id}
+                      </ProductId>
+                      <ProductColor color={product.color} />
+                      <ProductSize>
+                        <strong>Size:</strong>
+                        {product.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      $ {product.price * product.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+              );
+            })}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$80</SummaryItemPrice>
+              <SummaryItemPrice>${cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -227,9 +222,20 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <StripeCheckout
+              name="Syntra"
+              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfx2bUbuWOlqWQElN9DD8LJAqU4Ac4J8BCmQ&usqp=CAU"
+              billingAddress
+              shippingAddress
+              description={`Your total is ${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>
